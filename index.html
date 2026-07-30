@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SEO Keyword Expander (All Languages & Countries)</title>
+  <title>SEO Keyword Expander (Bulk Mode)</title>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 20px auto;
       padding: 20px;
       background: #fafafa;
@@ -24,7 +24,7 @@
       border-radius: 6px;
       box-sizing: border-box;
     }
-    textarea { min-height: 80px; resize: vertical; }
+    textarea { min-height: 100px; resize: vertical; }
     .checkbox-group {
       margin: 15px 0;
     }
@@ -57,7 +57,7 @@
     }
     .table-panel {
       flex: 1;
-      min-width: 300px;
+      min-width: 400px;
       background: white;
       border: 1px solid #ddd;
       border-radius: 6px;
@@ -70,7 +70,7 @@
       border-bottom: 1px solid #ddd;
     }
     .table-content {
-      max-height: 400px;
+      max-height: 500px;
       overflow: auto;
     }
     table {
@@ -94,14 +94,25 @@
     .success {
       color: #2e7d32 !important;
     }
+    .info-box {
+      background: #e3f2fd;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
-  <h1>🌍 SEO Keyword Expander (All Languages & Countries)</h1>
-  <div class="subtitle">Works on any domain • No CORS issues</div>
+  <h1>🌍 SEO Keyword Expander (Bulk Mode)</h1>
+  <div class="subtitle">Multiple seeds • All Languages & Countries</div>
 
-  <label for="seed">Seed Keyword (e.g., "seo")</label>
-  <input type="text" id="seed" placeholder="seo" value="seo" />
+  <div class="info-box">
+    💡 <strong>Tip:</strong> Enter multiple seed keywords (one per line). All other settings will apply to each seed.
+  </div>
+
+  <label for="seeds">Seed Keywords (one per line)</label>
+  <textarea id="seeds" placeholder="seo&#10;digital marketing&#10;content strategy"></textarea>
 
   <label for="language">Language (hl)</label>
   <select id="language"></select>
@@ -320,8 +331,8 @@
       if (excludeEnglish && hl === 'en') return english;
 
       const native = {
-        bn: 'অআইঈউঊঋএঐওঔকখগঘঙচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহড়ঢ়য়ৎ',
-        hi: 'अआइईउऊऋएऐओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह',
+        bn: 'অআইউঊঋএঐওঔকখগঘঙচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহড়ঢ়য়ৎ',
+        hi: 'अआइईउऊएऐओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह',
         mr: 'अआइईउऊऋएऐओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह',
         ne: 'अआइईउऊऋएऐओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह',
         ar: 'ابتجحدخذرزسشصضطظعغفقكلمنهويآةى',
@@ -332,8 +343,8 @@
         bg: 'абвгдежзийклмнопрстуфхцчшщъьюя',
         el: 'αβγδεζηθικλμνξοπρστυφχψω',
         he: 'אבגדהוזחטיכלמנסעפצקרשת',
-        ta: 'அஆஇஈஉஊஎஏஐஒஓஔகஙசஜஞடணதநனபமயரறலளழவஷஸஹ',
-        te: 'అఆఇఈఉఊఋఎఏఐఒఓఔకఖగఘఙచఛజఝఞటఠడఢణతథదధనపఫబభమయరఱలళవశషసహ',
+        ta: 'அஆஇஉஊஎஏஐஒஓஔகஙசஜஞடணதநனபமயரறலளழவஷஸஹ',
+        te: 'అఆఇఈఉఊఋఎఏఐఒఓఔకఖగఙచఛజఝఞటఠడఢణతథదధనపఫబభమయరఱలళవశషసహ',
         kn: 'ಅಆಇಈಉಊಋಎಏಐಒಓಔಕಖಗಘಙಚಛಜಝಞಟಠಡಢಣತಥದಧನಪಫಬಭಮಯರಲವಶಷಸಹ',
         ml: 'അആഇഈഉഊഋഎഏഐഒഓഔകഖഗഘങചഛജഝഞടഠഡഢണതഥദധനപഫബഭമയരറലവശഷസഹ',
         ja: 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんがぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽ',
@@ -368,32 +379,43 @@
       }
     }
 
-    // ====== GENERATE VARIANTS ======
-    function generateKeywordVariants(seed, hl) {
-      const v = [{ query: seed, prefix: '', suffix: '' }];
-      if (document.getElementById('includeSpace').checked) {
-        v.push({ query: ` ${seed}`, prefix: '(space)', suffix: '' });
-        v.push({ query: `${seed} `, prefix: '', suffix: '(space)' });
-      }
-      if (document.getElementById('includeAlphabet').checked) {
-        const exclude = document.getElementById('latinOnlyOverride').checked;
-        const chars = getAlphabetForLanguage(hl, exclude);
-        for (const char of chars) {
-          v.push({ query: `${char} ${seed}`, prefix: char, suffix: '' });
-          v.push({ query: `${seed} ${char}`, prefix: '', suffix: char });
+    // ====== GENERATE VARIANTS FOR MULTIPLE SEEDS ======
+    function generateKeywordVariants(seeds, hl) {
+      const allVariants = [];
+      
+      for (const seed of seeds) {
+        const v = [{ query: seed, prefix: '', suffix: '', seed: seed }];
+        
+        if (document.getElementById('includeSpace').checked) {
+          v.push({ query: ` ${seed}`, prefix: '(space)', suffix: '', seed: seed });
+          v.push({ query: `${seed} `, prefix: '', suffix: '(space)', seed: seed });
         }
-      }
-      ['customPrefixes', 'customSuffixes'].forEach((id, isSuffix) => {
-        document.getElementById(id).value.split('\n').map(s => s.trim()).filter(s => s)
-          .forEach(term => {
-            v.push({
-              query: isSuffix ? `${seed} ${term}` : `${term} ${seed}`,
-              prefix: isSuffix ? '' : term,
-              suffix: isSuffix ? term : ''
+        
+        if (document.getElementById('includeAlphabet').checked) {
+          const exclude = document.getElementById('latinOnlyOverride').checked;
+          const chars = getAlphabetForLanguage(hl, exclude);
+          for (const char of chars) {
+            v.push({ query: `${char} ${seed}`, prefix: char, suffix: '', seed: seed });
+            v.push({ query: `${seed} ${char}`, prefix: '', suffix: char, seed: seed });
+          }
+        }
+        
+        ['customPrefixes', 'customSuffixes'].forEach((id, isSuffix) => {
+          document.getElementById(id).value.split('\n').map(s => s.trim()).filter(s => s)
+            .forEach(term => {
+              v.push({
+                query: isSuffix ? `${seed} ${term}` : `${term} ${seed}`,
+                prefix: isSuffix ? '' : term,
+                suffix: isSuffix ? term : '',
+                seed: seed
+              });
             });
-          });
-      });
-      return v;
+        });
+        
+        allVariants.push(...v);
+      }
+      
+      return allVariants;
     }
 
     // ====== UTILITIES ======
@@ -402,7 +424,7 @@
         container.innerHTML = '<div style="padding:15px;color:#888;">No data</div>';
         return;
       }
-      const html = `<table><thead><tr><th>prefix</th><th>suffix</th><th>query</th></tr></thead><tbody>${rows.map(r => `<tr><td>${r[0] || '&nbsp;'}</td><td>${r[1] || '&nbsp;'}</td><td>${r[2]}</td></tr>`).join('')}</tbody></table>`;
+      const html = `<table><thead><tr><th>seed</th><th>prefix</th><th>suffix</th><th>query</th></tr></thead><tbody>${rows.map(r => `<tr><td>${r[0] || '&nbsp;'}</td><td>${r[1] || '&nbsp;'}</td><td>${r[2] || '&nbsp;'}</td><td>${r[3]}</td></tr>`).join('')}</tbody></table>`;
       container.innerHTML = html;
     }
 
@@ -432,12 +454,14 @@
 
     // ====== MAIN LOGIC ======
     document.getElementById('startBtn').addEventListener('click', async () => {
-      const seed = document.getElementById('seed').value.trim();
+      const seedsText = document.getElementById('seeds').value.trim();
       const hl = document.getElementById('language').value;
       const gl = document.getElementById('country').value;
       const useSemantic = document.getElementById('semanticFilter').checked;
 
-      if (!seed) return alert('Enter seed keyword');
+      const seeds = seedsText.split('\n').map(s => s.trim()).filter(s => s);
+      
+      if (seeds.length === 0) return alert('Enter at least one seed keyword');
 
       const btn = document.getElementById('startBtn');
       const status = document.getElementById('status');
@@ -447,26 +471,33 @@
       const copyFiltered = document.getElementById('copyBtn');
 
       btn.disabled = true;
-      status.textContent = 'Generating variants...';
+      status.textContent = `Generating variants for ${seeds.length} seed(s)...`;
       rawEl.innerHTML = '<div style="padding:15px;">Loading...</div>';
       filteredEl.innerHTML = '<div style="padding:15px;">Loading...</div>';
       copyRaw.style.display = 'none';
       copyFiltered.style.display = 'none';
 
-      const variants = generateKeywordVariants(seed, hl);
-      status.textContent = `Fetching ${variants.length} queries...`;
+      const variants = generateKeywordVariants(seeds, hl);
+      status.textContent = `Fetching ${variants.length} queries from ${seeds.length} seed(s)...`;
 
-      const allRaw = [['prefix','suffix','query']];
+      const allRaw = [['seed','prefix','suffix','query']];
+      let completed = 0;
+      
       for (let i = 0; i < variants.length; i++) {
-        const { query, prefix, suffix } = variants[i];
+        const { query, prefix, suffix, seed } = variants[i];
         const suggestions = await fetchSuggestions(query, hl, gl);
-        suggestions.forEach(s => allRaw.push([prefix, suffix, s]));
-        status.textContent = `Fetched ${i+1}/${variants.length}: "${query}"`;
+        suggestions.forEach(s => allRaw.push([seed, prefix, suffix, s]));
+        completed++;
+        
+        if (completed % 10 === 0 || completed === variants.length) {
+          status.textContent = `Progress: ${completed}/${variants.length} queries completed (${Math.round(completed/variants.length*100)}%)`;
+        }
+        
         await new Promise(r => setTimeout(r, 300));
       }
 
       const seen = new Set();
-      const uniqueRaw = allRaw.filter(row => !seen.has(row[2]) && seen.add(row[2]));
+      const uniqueRaw = allRaw.filter(row => !seen.has(row[3]) && seen.add(row[3]));
 
       renderTable(rawEl, uniqueRaw.slice(1));
       const rawTsv = uniqueRaw.map(r => r.map(f => `"${String(f).replace(/"/g,'""')}"`).join('\t')).join('\n');
@@ -484,10 +515,12 @@
         const encoder = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
         status.textContent = 'Filtering by meaning...';
 
-        const seedEmb = (await encoder(seed)).data;
-        const filtered = [['prefix','suffix','query']];
+        // Use first seed as reference for semantic filtering
+        const seedEmb = (await encoder(seeds[0])).data;
+        const filtered = [['seed','prefix','suffix','query']];
+        
         for (const row of uniqueRaw.slice(1)) {
-          const emb = (await encoder(row[2])).data;
+          const emb = (await encoder(row[3])).data;
           const sim = cosineSimilarity(Array.from(seedEmb), Array.from(emb));
           if (sim > 0.60) filtered.push(row);
         }
@@ -501,9 +534,12 @@
           setTimeout(() => copyFiltered.textContent = t, 2000);
         };
         copyFiltered.style.display = 'inline-block';
-        status.textContent = `✅ Done! Raw: ${uniqueRaw.length-1} | Filtered: ${filtered.length-1}`;
+        status.textContent = `✅ Done! Seeds: ${seeds.length} | Raw: ${uniqueRaw.length-1} | Filtered: ${filtered.length-1}`;
+        status.className = 'status success';
       } else {
         filteredEl.innerHTML = '<div style="padding:15px;color:#888;">Enable AI filter to see relevant results</div>';
+        status.textContent = `✅ Done! Processed ${seeds.length} seed(s). Total: ${uniqueRaw.length-1} suggestions`;
+        status.className = 'status success';
       }
 
       btn.disabled = false;
